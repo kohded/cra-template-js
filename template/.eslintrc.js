@@ -1,40 +1,46 @@
 module.exports = {
   env: {
+    'shared-node-browser': true,
     browser: true,
-    es6: true,
-    es2017: true,
-    es2020: true,
+    commonjs: true,
+    es2021: true,
     jest: true,
     node: true,
     serviceworker: true,
-    'shared-node-browser': true,
+    worker: true,
   },
   extends: [
     'react-app',
+    'react-app/jest',
+    // https://github.com/iamturns/eslint-config-airbnb-typescript#user-content-i-wish-this-config-would-support-
+    // Sets up: @typescript-eslint/eslint-plugin, import, jsx-a11y, react, react-hooks
     'airbnb',
     'airbnb/hooks',
-    'plugin:react/recommended',
+    'plugin:promise/recommended',
     'plugin:compat/recommended',
-    'plugin:jsx-a11y/recommended',
-    'plugin:import/errors',
-    'plugin:import/warnings',
+    'plugin:eslint-comments/recommended',
+    // https://github.com/prettier/eslint-plugin-prettier#user-content-recommended-configuration
+    // Sets up: eslint-config-prettier, eslint-plugin-prettier
     'plugin:prettier/recommended',
-    'prettier/react',
   ],
-  ignorePatterns: ['**/serviceWorker.js', 'build', 'coverage', 'node_modules'],
+  ignorePatterns: ['build', 'coverage', 'service-worker.js', 'serviceWorkerRegistration.js'],
   parserOptions: {
     ecmaFeatures: {
       impliedStrict: true,
       jsx: true,
     },
-    ecmaVersion: 2020,
+    ecmaVersion: 2021,
     sourceType: 'module',
   },
-  settings: {
-    'import/resolver': {
-      node: {
-        moduleDirectory: ['node_modules', 'src'],
-      },
-    },
+  rules: {
+    'import/order': ['error', { alphabetize: { order: 'asc' } }],
+    'import/prefer-default-export': 'off',
+    'no-param-reassign': [
+      'error',
+      // Immer - https://github.com/immerjs/immer/issues/189#issuecomment-703083451
+      { props: true, ignorePropertyModificationsForRegex: ['^draft'] },
+    ],
+    'no-underscore-dangle': ['error', { allow: ['__WB_MANIFEST'] }],
+    'react/require-default-props': 'off',
   },
 };
